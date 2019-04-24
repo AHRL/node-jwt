@@ -18,6 +18,11 @@ let info = {
     host: 'localhost',
     port: 27017,
     db: 'node-jwt'
+	},
+	redis: {
+    host: 'localhost',
+    port: 6379,
+    db: 7
   }
 }
 module.exports = info

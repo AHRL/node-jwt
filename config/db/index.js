@@ -5,12 +5,13 @@
  */
 
 const mongoose = require('mongoose')
-const config = require('../info')
+const info = require('../info')
 
-module.exports = function (config) {
-  mongoose.promise = global.promise
-  mongoose.connect = config.mongodb.url
+module.exports = function () {
+  mongoose.promise = global.Promise
+  mongoose.connect(info.mongodb.url, {useNewUrlParser: true})
 
+  console.log('mongoose')
   mongoose.connection.on('connected', function () {
     console.log('连接mongoose成功')
   })
@@ -22,6 +23,6 @@ module.exports = function (config) {
   mongoose.connection.on('disconnected', function () {
     console.log('连接mongoose断开')
   })
-
+  console.log(mongoose)
   return mongoose
 }
