@@ -123,14 +123,14 @@ export default {
   },
   methods: {
     login () {
-      const _this = this
       const yzmKey = this.yzmKey
       this.$axios.post('/login', {
         ...this.loginForm,
         key: yzmKey
       }).then((res) => {
-        console.log('login', res)
-        this.$options.methods.getIdentityCode.call(_this, { key: this.yzmKey })
+        this.$store.commit('LOGIN_IN', res.data.data)
+        console.log(this.$store.state.token)
+        this.$router.push('/success')
       }).catch((err) => {
         console.log(err)
       })

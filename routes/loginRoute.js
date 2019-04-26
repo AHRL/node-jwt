@@ -12,4 +12,5 @@ module.exports = function (koaRouter, options) {
 
   koaRouter.post('/login', userController.login, identityCode.getIdentityCode)
   koaRouter.post('/register', userController.register)
+  koaRouter.post('/request', userController.request)
 }

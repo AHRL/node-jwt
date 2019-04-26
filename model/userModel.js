@@ -9,6 +9,7 @@ module.exports = class {
     const userSchema = new Schema({
       username: String, // 用户名
       password: String, // 密码
+      token: String, // token值
       salt: String // 密钥
     })
 
@@ -17,7 +18,10 @@ module.exports = class {
     // 注册
     this.register = function (moduleObj) {
       return new Promise((resolve, reject) => {
-        const userObj = new User(moduleObj)
+        const userObj = new User({
+          ...moduleObj,
+          token: ''
+        })
         userObj.save((err, data) => {
           if (err) {
             reject(new Error({state: 'failed', msg: '注册失败，请重试', data: err}))
@@ -36,6 +40,19 @@ module.exports = class {
             reject(new Error({ status: 'failed', msg: '查询失败', data: err }))
           } else {
             resolve({ status: 'success', msg: '查询成功', data: data })
+          }
+        })
+      })
+    }
+
+    // 更新用户token
+    this.updateToken = function (query, update) {
+      return new Promise((resolve, reject) => {
+        User.update(query, {$set: update}, function (err, data) {
+          if (err) {
+            reject(new Error({ status: 'failed', msg: '更新失败', data: err }))
+          } else {
+            resolve({ status: 'success', msg: '更新成功', data: data })
           }
         })
       })
